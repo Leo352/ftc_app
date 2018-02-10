@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import java.io.IOException;
+import java.util.Formatter;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,6 +63,18 @@ public class BotmanTeleOp extends OpMode{
     @Override
     public void init() {
         robot.init(hardwareMap, false, DcMotor.ZeroPowerBehavior.BRAKE);
+
+        try {
+            FileHandler handler = new FileHandler("botmanlog%g.html");
+            handler.setFormatter(new BotmanHtmlFormatter());
+            LOGGER.addHandler(handler);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            LOGGER.severe("Problems Creating Files");
+        }
+
+
         //region Boolean Initialization
 
         //Controlling Booleans
@@ -76,13 +90,6 @@ public class BotmanTeleOp extends OpMode{
 
         //endregion
         relicPos = robot.relicClaw.getPosition();
-
-        try{
-            BotmanLogger.setup();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Problem Creating Log Files");
-        }
 
         LOGGER.setLevel(Level.INFO);
         LOGGER.info("Initializaton Completed");

@@ -29,9 +29,6 @@ import java.util.logging.Logger;
 public class HardwareBotman
 {
 
-    private final static Logger LOGGER = Logger.getLogger(HardwareBotman.class.getName());
-
-
     //region Public OpMode members
 
     DcMotor leftFrontDrive   = null;
