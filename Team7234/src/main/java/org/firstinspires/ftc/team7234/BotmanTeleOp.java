@@ -5,12 +5,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @TeleOp(name="BotmanTeleOp", group="Pushbot")
 //@Disabled
 public class BotmanTeleOp extends OpMode{
 
     /* Declare OpMode members. */
     private HardwareBotman robot       = new HardwareBotman();
+
+    //Create Logger
+    private final static Logger LOGGER = Logger.getLogger(BotmanTeleOp.class.getName());
     //region Local Variable Declaration
 
     private static final double driveCurve = 1.0;
@@ -69,7 +75,11 @@ public class BotmanTeleOp extends OpMode{
         //endregion
         relicPos = robot.relicClaw.getPosition();
 
-
+        LOGGER.setLevel(Level.INFO);
+        LOGGER.severe("Info Log");
+        LOGGER.warning("Info Log");
+        LOGGER.info("Info Log");
+        LOGGER.finest("Unimportant");
     }
     @Override
     public void init_loop(){}
