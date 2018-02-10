@@ -18,6 +18,7 @@ public class BotmanTeleOp extends OpMode{
 
     //Create Logger
     private final static Logger LOGGER = Logger.getLogger(BotmanTeleOp.class.getName());
+
     //region Local Variable Declaration
 
     private static final double driveCurve = 1.0;

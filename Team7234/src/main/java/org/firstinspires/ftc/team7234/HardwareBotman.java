@@ -17,6 +17,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import java.util.logging.Logger;
+
 /**
  * Team 7234
  * This is NOT an OpMode
@@ -26,6 +28,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  */
 public class HardwareBotman
 {
+
+    private final static Logger LOGGER = Logger.getLogger(HardwareBotman.class.getName());
+
+
     //region Public OpMode members
 
     DcMotor leftFrontDrive   = null;
@@ -108,6 +114,7 @@ public class HardwareBotman
         hwMap = ahwMap;
 
         // Define and Initialize Motors
+
         leftFrontDrive  = hwMap.get(DcMotor.class, "left Front Drive");
         rightFrontDrive = hwMap.get(DcMotor.class, "right Front Drive");
         leftBackDrive = hwMap.get(DcMotor.class, "left Back Drive");
