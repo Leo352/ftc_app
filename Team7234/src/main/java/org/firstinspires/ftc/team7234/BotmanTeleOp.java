@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,11 +76,15 @@ public class BotmanTeleOp extends OpMode{
         //endregion
         relicPos = robot.relicClaw.getPosition();
 
+        try{
+            BotmanLogger.setup();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Problem Creating Log Files");
+        }
+
         LOGGER.setLevel(Level.INFO);
-        LOGGER.severe("Info Log");
-        LOGGER.warning("Info Log");
-        LOGGER.info("Info Log");
-        LOGGER.finest("Unimportant");
+        LOGGER.info("Initializaton Completed");
     }
     @Override
     public void init_loop(){}
@@ -107,6 +112,11 @@ public class BotmanTeleOp extends OpMode{
             case LEFT:
                 if (robot.heading() > targetHead - 3.0 && robot.heading() < targetHead + 3.0){
                     turnState = turningState.NORMAL;
+                    LOGGER.info("Left Turn Complete, Target heading was: "
+                            + targetHead
+                            + "\nEnd heading was: "
+                            + robot.heading()
+                    );
                     break;
                 }
                 else{
@@ -116,6 +126,11 @@ public class BotmanTeleOp extends OpMode{
             case RIGHT:
                 if (robot.heading() >targetHead - 3.0 && robot.heading() < targetHead + 3.0){
                     turnState = turningState.NORMAL;
+                    LOGGER.info("Right Turn Complete, Target heading was: "
+                            + targetHead
+                            + "\nEnd heading was: "
+                            + robot.heading()
+                    );
                     break;
                 }
                 else{
@@ -179,10 +194,12 @@ public class BotmanTeleOp extends OpMode{
             if (gamepad2.a){
                 gripState = gripState.next();
                 gripperToggle = false;
+                LOGGER.info("Gripper State changed, state is now: " + gripState);
             }
             if (gamepad2.b){
                 gripState = gripState.previous();
                 gripperToggle = false;
+                LOGGER.info("Gripper State changed, state is now: " + gripState);
             }
         }
         else if (!(gamepad2.a || gamepad2.b) ){
@@ -194,6 +211,7 @@ public class BotmanTeleOp extends OpMode{
         if (speedToggle){
             if(gamepad1.b){
                 speedControl = !speedControl;
+                LOGGER.info("Speed Scale altered, Scale is now: " + driveMultiplier);
                 speedToggle = false;
             }
         }
@@ -212,6 +230,11 @@ public class BotmanTeleOp extends OpMode{
                     turnState = turningState.LOCKED;
                 }
                 headingLock = robot.heading();
+                LOGGER.info("Orientation Lock Changed, state is now:"
+                        + turnState
+                        + "\nTarget heading is: "
+                        + headingLock
+                );
                 orientationToggle = false;
             }
         }
@@ -226,11 +249,21 @@ public class BotmanTeleOp extends OpMode{
                 turnState = turningState.LEFT;
                 targetHead = (robot.heading() > 90.0) ? robot.heading() -270.0 : robot.heading() +90;
                 rotationToggle = false;
+                LOGGER.info("Now turning Left, current heading is: "
+                        + robot.heading()
+                        + "\nTarget heading is: "
+                        + targetHead
+                );
             }
             else if (gamepad1.dpad_right){
                 turnState = turningState.RIGHT;
                 targetHead = (robot.heading()>-90.0) ? robot.heading() -90 : robot.heading() + 270.0;
                 rotationToggle = false;
+                LOGGER.info("Now turning Right, current heading is: "
+                        + robot.heading()
+                        + "\nTarget heading is: "
+                        + targetHead
+                );
             }
         }
         else if(!gamepad1.dpad_right && !gamepad1.dpad_left){
