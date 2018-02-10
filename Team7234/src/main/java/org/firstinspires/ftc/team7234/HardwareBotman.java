@@ -149,7 +149,7 @@ public class HardwareBotman
         rightClaw.setPosition(RIGHT_GRIPPER_OPEN);
         jewelPusher.setPosition(JEWEL_PUSHER_UP);
         relicClaw.scaleRange(RELIC_ARM_TOP, RELIC_ARM_BOTTOM);
-        relicClaw.setPosition(1.0);
+        relicClaw.setPosition(0.0);
 
 
 
